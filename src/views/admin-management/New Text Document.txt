@@ -1,0 +1,31 @@
+const delClick = async(deleteId) => {
+    setLoading(true);e
+
+
+    let obj = {
+      method: "delete",
+      url: `admin/delete/${deleteId}` ,
+    };
+    let response = await ApiRequest(obj);
+    setLoading(false);
+    if (response.flag === false) {
+      setSuccess([]);
+      setError(response.message);
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    } else {
+      if (response.data.status === "OK") {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        let page = currentPage;
+        setSuccess([response.data.message]);
+        if (employeeList.length - 1 == 0) {
+          page = currentPage - 1;
+        }
+        tempSearch(page);
+        setError([]);
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        setError([response.data.message]);
+        setSuccess([]);
+      }
+    }
+  }
